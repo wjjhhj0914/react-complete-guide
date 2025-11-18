@@ -4,13 +4,13 @@ import Examples from './components/Examples.jsx';
 
 function App() {
   return (
-    <div>
+    <>
       <Header />
       <main>
         <CoreConcepts />
         <Examples />
       </main>
-    </div>
+    </>
   );
 }
 
