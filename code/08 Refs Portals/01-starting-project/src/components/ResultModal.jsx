@@ -8,8 +8,6 @@ const ResultModal = forwardRef(function ResultModal(
 
   useImperativeHandle(ref, () => {
     return {
-      // this method name is totally up to me
-      // and this method will soon be callable from outside this component
       open() {
         dialog.current.showModal();
       },
