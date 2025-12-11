@@ -53,6 +53,24 @@ function App() {
     });
   }
 
+  function handleDeleteProject() {
+    setProjectsState(prevState => {
+      return {
+        ...prevState,
+        selectedProjectId: undefined,
+        // filter는 함수를 입력값으로 받아서
+        // 이 배열에 모든 항목에 대해 실행함
+        // 이 함수에서는 어떤 요소를 유지해야 하는 경우 TRUE를,
+        // 삭제해야 하는 경우 FALSE를 반환해야 함.
+        // 그렇게 하면 filter는 새로운 배열을 만들어 삭제되지 않은 요소들만 보여줌.
+        // 즉, TRUE를 반환한 경우.
+        projects: prevState.projects.filter(
+          project => project.id !== prevState.selectedProjectId
+        ),
+      };
+    });
+  }
+
   // 배열의 한 ID 요소를 찾는 데 사용
   // find는 함수를 인수로 취하고,
   // 이 배열의 모든 요소에 실행된 함수다/
@@ -63,7 +81,9 @@ function App() {
     project => project.id === projectsState.selectedProjectId
   );
 
-  let content = <SelectedProject project={selectedProject} />;
+  let content = (
+    <SelectedProject project={selectedProject} onDelete={handleDeleteProject} />
+  );
 
   if (projectsState.selectedProjectId === null) {
     content = (
