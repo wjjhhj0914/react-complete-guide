@@ -27,7 +27,14 @@ function App() {
     });
   }
 
-  function handleDeleteTask() {}
+  function handleDeleteTask(id) {
+    setProjectsState(prevState => {
+      return {
+        ...prevState,
+        tasks: prevState.tasks.filter(task => task.id !== id),
+      };
+    });
+  }
 
   function handleSelectProject(id) {
     setProjectsState(prevState => {
@@ -76,12 +83,6 @@ function App() {
       return {
         ...prevState,
         selectedProjectId: undefined,
-        // filter는 함수를 입력값으로 받아서
-        // 이 배열에 모든 항목에 대해 실행함
-        // 이 함수에서는 어떤 요소를 유지해야 하는 경우 TRUE를,
-        // 삭제해야 하는 경우 FALSE를 반환해야 함.
-        // 그렇게 하면 filter는 새로운 배열을 만들어 삭제되지 않은 요소들만 보여줌.
-        // 즉, TRUE를 반환한 경우.
         projects: prevState.projects.filter(
           project => project.id !== prevState.selectedProjectId
         ),
@@ -123,6 +124,7 @@ function App() {
         onStartAddProject={handleStartAddProject}
         projects={projectsState.projects}
         onSelectProject={handleSelectProject}
+        selectedProjectId={projectsState.selectedProjectId}
       />
       {content}
     </main>
