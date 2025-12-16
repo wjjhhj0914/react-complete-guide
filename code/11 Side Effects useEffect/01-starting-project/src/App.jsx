@@ -5,11 +5,21 @@ import { AVAILABLE_PLACES } from './data.js';
 import Modal from './components/Modal.jsx';
 import DeleteConfirmation from './components/DeleteConfirmation.jsx';
 import logoImg from './assets/logo.png';
+import { sortPlacesByDistance } from './loc.js';
 
 function App() {
   const modal = useRef();
   const selectedPlace = useRef();
   const [pickedPlaces, setPickedPlaces] = useState([]);
+
+  // get user's location (browser) This is the SIDE EFFECT !!
+  navigator.geolocation.getCurrentPosition(position => {
+    const sortedPlaces = sortPlacesByDistance(
+      AVAILABLE_PLACES,
+      position.coords.latitude,
+      position.coords.longitude
+    );
+  });
 
   function handleStartRemovePlace(id) {
     modal.current.open();
@@ -21,18 +31,18 @@ function App() {
   }
 
   function handleSelectPlace(id) {
-    setPickedPlaces((prevPickedPlaces) => {
-      if (prevPickedPlaces.some((place) => place.id === id)) {
+    setPickedPlaces(prevPickedPlaces => {
+      if (prevPickedPlaces.some(place => place.id === id)) {
         return prevPickedPlaces;
       }
-      const place = AVAILABLE_PLACES.find((place) => place.id === id);
+      const place = AVAILABLE_PLACES.find(place => place.id === id);
       return [place, ...prevPickedPlaces];
     });
   }
 
   function handleRemovePlace() {
-    setPickedPlaces((prevPickedPlaces) =>
-      prevPickedPlaces.filter((place) => place.id !== selectedPlace.current)
+    setPickedPlaces(prevPickedPlaces =>
+      prevPickedPlaces.filter(place => place.id !== selectedPlace.current)
     );
     modal.current.close();
   }
