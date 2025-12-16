@@ -45,6 +45,11 @@ function App() {
     });
   }
 
+  const storedIds = JSON.parse(localStorage.getItem('selectedPlaces')) || [];
+  if (storedIds.indexOf(id) === -1) {
+    localStorage.setItem('selectedPlaces', JSON.stringify([id, ...storedIds]));
+  }
+
   function handleRemovePlace() {
     setPickedPlaces(prevPickedPlaces =>
       prevPickedPlaces.filter(place => place.id !== selectedPlace.current)
